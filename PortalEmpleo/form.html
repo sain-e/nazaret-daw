@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Solicitud</title>
+    <link href="styles.css" rel="stylesheet"/>
+</head>
+<body>
+    <div class="container">
+        <h1>Formulario de Solicitud</h1>
+        <form action="/form" method="POST" onsubmit="return validarForm();">
+            <label for="txtNombre">Nombre:</label><br/>
+            <input type="text" id="nombre" name="nombre" placeholder="Luis Zamora" required><br/>
+            <label for="txtEmail">Email:</label><br/>
+            <input type="email" id="email" name="email" placeholder="example@gmail.com" required><br/>
+            <label for="txtTelefono">Teléfono:</label><br/>
+            <input type="number" id="telefono" name="telefono" placeholder="555555555" required><br/>
+            <label for="txtExperiencia">Experiencia:</label><br/>
+            <textarea id="experiencia" name="experiencia" placeholder="Introduce tu experiencia previa para el puesto..." required></textarea><br/>
+            <label for="txtPuesto">Puesto:</label><br/>
+            <select id="puesto" name="puesto" required>
+                <option value="Economista">Economista</option>
+                <option value="Analista">Analista</option>
+                <option value="Ejecutivo">Ejecutivo</option>
+                <option value="Consultor">Consultor</option>
+                <option value="Profesor">Profesor</option>
+            </select><br/>
+            <button type="submit" class="send">Enviar</button>
+        </form>
+        <div class="error" id="error-message"></div>
+    </div>
+
+    <!--Validamos antes de mandar los datos al servidor -->
+    <script>
+        function validarForm() {
+            console.log("Comprobando....");
+            const nombre = document.getElementById("nombre").value;
+            const email = document.getElementById("email").value;
+            const telefono = document.getElementById("telefono").value;
+            const experiencia = document.getElementById("experiencia").value;
+            const puesto = document.getElementById("puesto").value;
+
+            let errorMensaje = "";
+            
+            //console.log(nombre,email,telefono,experiencia,puesto);
+            
+            //Validamos los datos obtenidos
+            if (!nombre || !email || !telefono || !experiencia || !puesto) {
+                console.log("Faltan campos");
+                errorMensaje += "Todos los campos son requeridos."
+            }
+            if (nombre.length < 3) {
+                errorMensaje += "El nombre debe ser mayor de 3 caracteres.";
+            }
+            if (telefono.length < 9 || telefono.length > 12) {
+                errorMensaje += "El número de teléfono no es válido."
+            }
+
+            //Mostrar errores si existen
+            const errorElement = document.getElementById("error-message");
+
+            if (errorMensaje) {
+                errorElement.innerHTML = errorMensaje;
+                return false;
+            } else {
+                // Enviamos los datos al servidor
+                console.log("Formulario enviado correctamente.");
+                return true;
+            }
+        }
+    </script>
+</body>
+</html>
